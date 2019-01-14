@@ -1,0 +1,34 @@
+{
+  "name": "json-rpc-msg",
+  "version": "0.0.1",
+  "description": "JavaScript library to create and parse JSON-RPC messages",
+  "main": "./src/json-rpc-parse.js",
+  "browser": "./src/json-rpc-parse.js",
+  "scripts": {
+    "test": "RPC_VERSION=\"2.0\" mocha test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avasuro/json-rpc-msg"
+  },
+  "devDependencies": {
+    "avasuro-eslint-config": "git+https://github.com/avasuro/eslint-config.git",
+    "chai": "^4.2.0",
+    "eslint": "^5.12.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0"
+  },
+  "keywords": [
+    "json",
+    "rpc",
+    "parser",
+    "encode",
+    "decode"
+  ],
+  "author": "avasuro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avasuro/json-rpc-msg/issues"
+  },
+  "homepage": "https://github.com/avasuro/json-rpc-msg#readme"
+}

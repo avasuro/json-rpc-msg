@@ -1,0 +1,8 @@
+{
+    "extends": "../.eslintrc",
+    "env": {
+        "mocha": true,
+        "es6": true,
+        "prefer-arrow-callback": false
+    }
+}

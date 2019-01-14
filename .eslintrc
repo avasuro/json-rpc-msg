@@ -1,0 +1,6 @@
+{
+    "extends": "./node_modules/avasuro-eslint-config/2__single_quotes_and_spaces/.eslintrc",
+    "rules": {
+        "no-param-reassign": "off"
+    }
+}
