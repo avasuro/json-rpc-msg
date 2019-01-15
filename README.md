@@ -5,9 +5,15 @@
   <p>  
     Zero-dependencies library for <a href="http://nodejs.org">Node.js</a> and <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> to parse and create <a href="https://www.jsonrpc.org/specification">JSON RPC 2.0</a> messages.
   </p>
+  <a href="https://img.shields.io/node/v/json-rpc-msg.svg?style=flat-square">
+      <img alt="undefined" src="https://img.shields.io/node/v/json-rpc-msg.svg?style=flat-square">
+  </a>
   <a href="https://img.shields.io/coveralls/github/avasuro/json-rpc-msg.svg?style=flat-square">
     <img alt="undefined" src="https://img.shields.io/coveralls/github/avasuro/json-rpc-msg.svg?style=flat-square">
   </a>
+  <a href="https://img.shields.io/bundlephobia/min/json-rpc-msg.svg?style=flat-square">
+      <img alt="undefined" src="https://img.shields.io/bundlephobia/min/json-rpc-msg.svg?style=flat-square">
+    </a>
   <a href="https://img.shields.io/github/license/avasuro/json-rpc-msg.svg?style=flat-square">
     <img alt="undefined" src="https://img.shields.io/github/license/avasuro/json-rpc-msg.svg?style=flat-square">
   </a>

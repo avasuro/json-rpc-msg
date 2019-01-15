@@ -1,6 +1,6 @@
 {
   "name": "json-rpc-msg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript library to create and parse JSON-RPC messages",
   "main": "./src/json-rpc-parse.js",
   "engines": {
