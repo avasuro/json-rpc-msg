@@ -247,7 +247,9 @@
         }
 
         if (!errorData.message) {
-            let errorInRegistry = ERRORS.find(error => error.code === errorData.code);
+            let errorInRegistry = Object.values(ERRORS).find(
+                error => error.code === errorData.code
+            );
             errorData.message = errorInRegistry ? errorInRegistry.message : 'Internal Server Error';
         }
 
