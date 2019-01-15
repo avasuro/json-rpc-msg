@@ -247,7 +247,8 @@
         }
 
         if (!errorData.message) {
-            errorData.message = errorData.code in ERRORS ? ERRORS[errorData.code].message : 'Internal Server Error';
+            let errorInRegistry = ERRORS.find(error => error.code === errorData.code);
+            errorData.message = errorInRegistry ? errorInRegistry.message : 'Internal Server Error';
         }
 
         const errorObj = {...errorData};
@@ -312,7 +313,7 @@
      * Creates JSON-RPC response
      *
      * @param {number|string} id
-     * @param {object} result
+     * @param {*} result
      *
      * @returns {object}
      *
