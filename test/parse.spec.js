@@ -18,6 +18,20 @@ describe('#parseMessage', function() {
             });
         }
     };
+    const internalNotificationExample = {
+        data: {
+            jsonrpc: '2.0',
+            method: 'rpc.someEvent',
+            params: ['eventData']
+        },
+        test(result) {
+            expect(result).to.have.property('type', JsonRPC.MESSAGE_TYPES.INTERNAL_NOTIFICATION);
+            expect(result).to.have.deep.property('payload', {
+                method: internalNotificationExample.data.method,
+                params: internalNotificationExample.data.params
+            });
+        }
+    };
     const requestExample = {
         data: {
             jsonrpc: '2.0',
@@ -31,6 +45,22 @@ describe('#parseMessage', function() {
                 id: requestExample.data.id,
                 method: requestExample.data.method,
                 params: requestExample.data.params
+            });
+        }
+    };
+    const internalRequestExample = {
+        data: {
+            jsonrpc: '2.0',
+            id: 1,
+            method: 'rpc.test',
+            params: [1,2]
+        },
+        test(result) {
+            expect(result).to.have.property('type', JsonRPC.MESSAGE_TYPES.INTERNAL_REQUEST);
+            expect(result).to.have.deep.property('payload', {
+                id: internalRequestExample.data.id,
+                method: internalRequestExample.data.method,
+                params: internalRequestExample.data.params
             });
         }
     };
@@ -73,8 +103,16 @@ describe('#parseMessage', function() {
         notificationExample.test(JsonRPC.parseMessage(notificationExample.data));
     });
 
+    it('Successfully parses internal notifications represented as javascript object', function() {
+        internalNotificationExample.test(JsonRPC.parseMessage(internalNotificationExample.data));
+    });
+
     it('Successfully parses requests represented as javascript object', function() {
         requestExample.test(JsonRPC.parseMessage(requestExample.data));
+    });
+
+    it('Successfully parses internal requests represented as javascript object', function() {
+        internalRequestExample.test(JsonRPC.parseMessage(internalRequestExample.data));
     });
 
     it('Successfully parses responses represented as javascript object', function() {
