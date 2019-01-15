@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "JavaScript library to create and parse JSON-RPC messages",
   "main": "./src/json-rpc-parse.js",
-  "browser": "./src/json-rpc-parse.js",
+  "engines": {
+    "node" : ">=8.6"
+  },
   "scripts": {
     "test": "RPC_VERSION=\"2.0\" mocha test/*.spec.js"
   },
