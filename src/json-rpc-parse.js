@@ -341,11 +341,10 @@
      * Parses passed message
      *
      * @param {string|object|array} message - JSON string or object or array or requests (batch)
-     * @param {boolean} possiblyBatch
      *
      * @returns {Array|object}
      */
-    function parseMessage(message, possiblyBatch = true) {
+    function parseMessage(message) {
         let result;
         // Prase JSON string into object:
         if (typeof message === 'string') {
@@ -361,27 +360,22 @@
         // If message is an array then it's a batch, so we need to parse every request in this
         // batch separately
         // (unless we already parsing a batch - in that case parse error should be returned):
-        if (Array.isArray(message) && possiblyBatch) {
-            if (possiblyBatch) {
-                result = {
-                    type: MESSAGE_TYPES.BATCH,
-                    payload: message.map((request) => {
-                        let msg;
-                        try {
-                            msg = parseMessage(request, false);
+        if (Array.isArray(message)) {
+            result = {
+                type: MESSAGE_TYPES.BATCH,
+                payload: message.map((request) => {
+                    let msg;
+                    try {
+                        msg = parseMessage(request, false);
+                    }
+                    catch (e) {
+                        if (e instanceof ParserError) {
+                            msg = e;
                         }
-                        catch (e) {
-                            if (e instanceof ParserError) {
-                                msg = e;
-                            }
-                        }
-                        return msg;
-                    })
-                };
-            }
-            else {
-                throw new ParserError(createError(null, ERRORS.INVALID_REQUEST));
-            }
+                    }
+                    return msg;
+                })
+            };
         }
         // If message is normal js object, so we need to validate it and determine it's type:
         else if (typeof message === 'object') {

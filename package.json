@@ -4,10 +4,10 @@
   "description": "JavaScript library to create and parse JSON-RPC messages",
   "main": "./src/json-rpc-parse.js",
   "engines": {
-    "node" : ">=8.6"
+    "node": ">=8.6"
   },
   "scripts": {
-    "test": "RPC_VERSION=\"2.0\" mocha test/*.spec.js"
+    "test": "RPC_VERSION=\"2.0\" nyc --reporter=text --reporter=lcov mocha test/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -16,9 +16,11 @@
   "devDependencies": {
     "avasuro-eslint-config": "git+https://github.com/avasuro/eslint-config.git",
     "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
     "eslint": "^5.12.0",
     "eslint-plugin-import": "^2.14.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   },
   "keywords": [
     "json",
