@@ -260,7 +260,7 @@ describe('#parseMessage', function() {
         });
     });
 
-    it('Throws "Invalid params" if request parameters is not a structured value', function() {
+    it('Throws "Invalid request" if request parameters is not a structured value', function() {
         const invalidParams = [
             undefined,
             null,
@@ -283,8 +283,8 @@ describe('#parseMessage', function() {
                 jsonrpc: RPC_VERSION,
                 id: null,
                 error: {
-                    code: JsonRPC.ERRORS.INVALID_PARAMS.code,
-                    message: JsonRPC.ERRORS.INVALID_PARAMS.message
+                    code: JsonRPC.ERRORS.INVALID_REQUEST.code,
+                    message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
             });
         });

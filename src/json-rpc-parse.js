@@ -21,7 +21,7 @@
         // codes from -32000 to -32099 reserved for implementation-defined server-errors.
         INVALID_REQUEST: {
             code: -32600,
-            message: 'Invalid request'
+            message: 'Invalid Request'
         },
         METHOD_NOT_FOUND: {
             code: -32601,
@@ -392,7 +392,7 @@
                 if (message.hasOwnProperty('params')) {
                     if (typeof message.params !== 'object' || message.params === null) {
                         throw new ParserError(
-                            createError(message.id || null, ERRORS.INVALID_PARAMS)
+                            createError(message.id || null, ERRORS.INVALID_REQUEST)
                         );
                     }
                 }
