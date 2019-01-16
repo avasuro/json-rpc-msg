@@ -18,13 +18,16 @@ module.exports = function ({
    });
 
    it('Allows to create notification without params', function () {
-      let eventName = 'eventName';
-      const result = JsonRPC.createNotification(eventName);
-      expect(result).to.be.an('object');
-      expect(result).to.have.property('jsonrpc', RPC_VERSION);
-      expect(result).to.not.have.property('id');
-      expect(result).to.have.property('method', eventName);
-      expect(result).to.not.have.property('params');
+      const emptyParams = [undefined, null];
+      emptyParams.forEach(param => {
+         let eventName = 'eventName';
+         const result = JsonRPC.createNotification(eventName, param);
+         expect(result).to.be.an('object');
+         expect(result).to.have.property('jsonrpc', RPC_VERSION);
+         expect(result).to.not.have.property('id');
+         expect(result).to.have.property('method', eventName);
+         expect(result).to.not.have.property('params');
+      });
    });
 
    it('Throws an error if notification name is not defined', function () {
@@ -49,7 +52,6 @@ module.exports = function ({
    });
 
    it('Throws an error if notification parameters have incorrect type', function () {
-      expect(createNotificationWithParameters(null)).to.throw(Error);
       expect(createNotificationWithParameters(0)).to.throw(Error);
       expect(createNotificationWithParameters(1)).to.throw(Error);
       expect(createNotificationWithParameters('')).to.throw(Error);

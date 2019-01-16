@@ -151,9 +151,9 @@
         if (!isInternal) {
             assert(method.indexOf(INTERNAL_MESSAGE_PREFIX) !== 0, `Invalid method name "${method}": only internal methods can be prefixed with "${INTERNAL_MESSAGE_PREFIX}"`);
         }
-        if (params !== undefined) {
+        if (params !== undefined && params !== null) {
             assert(
-                Array.isArray(params) || (typeof params === 'object' && params !== null),
+                Array.isArray(params) || typeof params === 'object',
                 `Request parameters must be a structured value (an array or an object), "${typeof params}" given`
             );
         }

@@ -20,14 +20,17 @@ module.exports = function ({
     });
 
     it('Allows to create request without params', function() {
-        let requestId = 1;
-        let requestMethod = 'method_to_call';
-        const result = JsonRPC.createRequest(1, 'method_to_call');
-        expect(result).to.be.an('object');
-        expect(result).to.have.property('jsonrpc', RPC_VERSION);
-        expect(result).to.have.property('id', requestId);
-        expect(result).to.have.property('method', requestMethod);
-        expect(result).to.not.have.property('params');
+        const emptyParams = [undefined, null];
+        emptyParams.forEach(param => {
+            let requestId = 1;
+            let requestMethod = 'method_to_call';
+            const result = JsonRPC.createRequest(1, 'method_to_call', param);
+            expect(result).to.be.an('object');
+            expect(result).to.have.property('jsonrpc', RPC_VERSION);
+            expect(result).to.have.property('id', requestId);
+            expect(result).to.have.property('method', requestMethod);
+            expect(result).to.not.have.property('params');
+        });
     });
 
     it('Allows to set request ID as string or number', function() {
@@ -76,7 +79,6 @@ module.exports = function ({
     it('Throws an error if method parameters have incorrect type', function() {
         expect(createRequestWithParameters(0)).to.throw(Error);
         expect(createRequestWithParameters(1)).to.throw(Error);
-        expect(createRequestWithParameters(null)).to.throw(Error);
         expect(createRequestWithParameters('')).to.throw(Error);
         expect(createRequestWithParameters('   ')).to.throw(Error);
         expect(createRequestWithParameters('bad_params')).to.throw(Error);
