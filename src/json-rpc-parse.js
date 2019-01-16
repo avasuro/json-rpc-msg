@@ -223,7 +223,7 @@
      * Creates a response error object ( https://www.jsonrpc.org/specification#error_object )
      *
      * @param {Number|{code: int, message: string?}} errorData - error code
-     * @param {object} additionalData? - error details
+     * @param {*} additionalData? - error details
      *
      * @return {Object}
      */
@@ -237,12 +237,6 @@
         );
         assert(errorData.message === undefined || typeof errorData.message === 'string', 'Error message should be a string');
         assert(Number.isInteger(errorData.code), 'Error code should be an integer value');
-        if (additionalData !== undefined) {
-            assert(
-                Array.isArray(additionalData) || (typeof additionalData === 'object' && additionalData !== null),
-                `Error details must be a structured value (an array or an object), "${typeof additionalData}" given`
-            );
-        }
 
         if (!errorData.message) {
             let errorInRegistry = Object.values(ERRORS).find(
@@ -252,7 +246,7 @@
         }
 
         const errorObj = {...errorData};
-        if (additionalData) {
+        if (additionalData !== null && additionalData !== undefined) {
             errorObj.data = additionalData;
         }
 
