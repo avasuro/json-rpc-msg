@@ -364,6 +364,9 @@
         // batch separately
         // (unless we already parsing a batch - in that case parse error should be returned):
         if (Array.isArray(message)) {
+            if (message.length === 0) {
+                throw new ParserError(createError(null, ERRORS.INVALID_REQUEST));
+            }
             result = {
                 type: MESSAGE_TYPES.BATCH,
                 payload: message.map((request) => {

@@ -163,6 +163,21 @@ describe('#parseMessage', function() {
             .that.is.instanceof(JsonRPC.ParserError);
     });
 
+    it('Throws "Invalid request" if passed batch is empty', function() {
+        expect(() => JsonRPC.parseMessage([]))
+            .to.throw(JsonRPC.ParserError)
+            .with.deep.property('errorData', {
+                rpcError: {
+                    jsonrpc: RPC_VERSION,
+                    id: null,
+                    error: {
+                        code: JsonRPC.ERRORS.INVALID_REQUEST.code,
+                        message: JsonRPC.ERRORS.INVALID_REQUEST.message
+                    }
+                }
+            });
+    });
+
     it('Throws "Invalid request" if passed JSON is not an array or an object', function() {
         expect(() => JsonRPC.parseMessage(true))
             .to.throw(JsonRPC.ParserError)
