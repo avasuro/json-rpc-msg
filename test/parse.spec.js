@@ -259,4 +259,52 @@ describe('#parseMessage', function() {
                 }
         });
     });
+
+    it('Throws "Invalid params" if request parameters is not a structured value', function() {
+        const invalidParams = [
+            undefined,
+            null,
+            true,
+            false,
+            '',
+            'abc',
+            0,
+            123
+        ];
+        invalidParams.forEach(param => {
+            const message = {
+                jsonrpc: '2.0',
+                method: 'wrongParamsTest',
+                params: param
+            };
+            expect(() => JsonRPC.parseMessage(message))
+                .to.throw(JsonRPC.ParserError)
+                .with.deep.property('rpcError', {
+                jsonrpc: RPC_VERSION,
+                id: null,
+                error: {
+                    code: JsonRPC.ERRORS.INVALID_PARAMS.code,
+                    message: JsonRPC.ERRORS.INVALID_PARAMS.message
+                }
+            });
+        });
+    });
+
+
+    it('Allows to pass method or notification params as object or array', function() {
+        const validParams = [
+            [],
+            [1,2],
+            {},
+            {a: 'a'}
+        ];
+        validParams.forEach(param => {
+            const message = {
+                jsonrpc: '2.0',
+                method: 'validParamsTest',
+                params: param
+            };
+            expect(() => JsonRPC.parseMessage(message)).to.not.throw(JsonRPC.ParserError);
+        });
+    });
 });

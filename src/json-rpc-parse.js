@@ -389,6 +389,14 @@
                 throw new ParserError(createError(id, ERRORS.INTERNAL_ERROR));
             }
             if (message.method) {
+                if (message.hasOwnProperty('params')) {
+                    if (typeof message.params !== 'object' || message.params === null) {
+                        throw new ParserError(
+                            createError(message.id || null, ERRORS.INVALID_PARAMS)
+                        );
+                    }
+                }
+
                 if (message.id) {
                     result = {
                         type: message.method.indexOf(INTERNAL_MESSAGE_PREFIX) === 0
