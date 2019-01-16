@@ -388,13 +388,20 @@
                 let id = message.id || null;
                 throw new ParserError(createError(id, ERRORS.INTERNAL_ERROR));
             }
-            if (message.method) {
+
+            if (message.hasOwnProperty('method')) {
                 if (message.hasOwnProperty('params')) {
                     if (typeof message.params !== 'object' || message.params === null) {
                         throw new ParserError(
                             createError(message.id || null, ERRORS.INVALID_REQUEST)
                         );
                     }
+                }
+
+                if (typeof message.method !== 'string' || message.method.trim().length === 0) {
+                    throw new ParserError(
+                        createError(message.id || null, ERRORS.INVALID_REQUEST)
+                    );
                 }
 
                 if (message.id) {

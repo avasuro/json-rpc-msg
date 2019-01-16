@@ -31,6 +31,7 @@ module.exports = function ({
       expect(createNotificationWithName(undefined)).to.throw(Error);
       expect(createNotificationWithName(null)).to.throw(Error);
       expect(createNotificationWithName('')).to.throw(Error);
+      expect(createNotificationWithName('   ')).to.throw(Error);
    });
 
    it('Throws an error if notification name have incorrect type', function () {
@@ -52,6 +53,7 @@ module.exports = function ({
       expect(createNotificationWithParameters(0)).to.throw(Error);
       expect(createNotificationWithParameters(1)).to.throw(Error);
       expect(createNotificationWithParameters('')).to.throw(Error);
+      expect(createNotificationWithParameters('   ')).to.throw(Error);
       expect(createNotificationWithParameters('bad_params')).to.throw(Error);
       expect(createNotificationWithParameters(true)).to.throw(Error);
       expect(createNotificationWithParameters(false)).to.throw(Error);

@@ -56,6 +56,7 @@ module.exports = function ({
         expect(createRequestWithMethodName(undefined)).to.throw(Error);
         expect(createRequestWithMethodName(null)).to.throw(Error);
         expect(createRequestWithMethodName('')).to.throw(Error);
+        expect(createRequestWithMethodName('   ')).to.throw(Error);
     });
 
     it('Throws an error if requested method name have incorrect type', function() {
@@ -77,6 +78,7 @@ module.exports = function ({
         expect(createRequestWithParameters(1)).to.throw(Error);
         expect(createRequestWithParameters(null)).to.throw(Error);
         expect(createRequestWithParameters('')).to.throw(Error);
+        expect(createRequestWithParameters('   ')).to.throw(Error);
         expect(createRequestWithParameters('bad_params')).to.throw(Error);
         expect(createRequestWithParameters(true)).to.throw(Error);
         expect(createRequestWithParameters(false)).to.throw(Error);

@@ -267,6 +267,7 @@ describe('#parseMessage', function() {
             true,
             false,
             '',
+            '   ',
             'abc',
             0,
             123
@@ -274,6 +275,7 @@ describe('#parseMessage', function() {
         invalidParams.forEach(param => {
             const message = {
                 jsonrpc: '2.0',
+                id: 1,
                 method: 'wrongParamsTest',
                 params: param
             };
@@ -281,7 +283,41 @@ describe('#parseMessage', function() {
                 .to.throw(JsonRPC.ParserError)
                 .with.deep.property('rpcError', {
                 jsonrpc: RPC_VERSION,
-                id: null,
+                id: 1,
+                error: {
+                    code: JsonRPC.ERRORS.INVALID_REQUEST.code,
+                    message: JsonRPC.ERRORS.INVALID_REQUEST.message
+                }
+            });
+        });
+    });
+
+    it('Throws "Invalid request" if request method name is not a string', function() {
+        const invalidMethodNames = [
+            undefined,
+            null,
+            true,
+            false,
+            '',
+            '   ',
+            0,
+            123,
+            [],
+            [1,2,3],
+            {},
+            {a: 'a'}
+        ];
+        invalidMethodNames.forEach(methodName => {
+            const message = {
+                jsonrpc: '2.0',
+                id: 1,
+                method: methodName
+            };
+            expect(() => JsonRPC.parseMessage(message))
+                .to.throw(JsonRPC.ParserError)
+                .with.deep.property('rpcError', {
+                jsonrpc: RPC_VERSION,
+                id: 1,
                 error: {
                     code: JsonRPC.ERRORS.INVALID_REQUEST.code,
                     message: JsonRPC.ERRORS.INVALID_REQUEST.message
