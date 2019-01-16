@@ -443,6 +443,15 @@
                     };
                 }
                 else {
+                    if (typeof message.error !== 'object' || message.error === null || Array.isArray(message.error)) {
+                        throw new ParserError(createError(message.id, ERRORS.INVALID_REQUEST));
+                    }
+                    if (!message.error.hasOwnProperty('code') || !Number.isInteger(message.error.code)) {
+                        throw new ParserError(createError(message.id, ERRORS.INVALID_REQUEST));
+                    }
+                    if (!message.error.hasOwnProperty('message') || typeof message.error.message !== 'string') {
+                        throw new ParserError(createError(message.id, ERRORS.INVALID_REQUEST));
+                    }
                     result = {
                         type: MESSAGE_TYPES.ERROR,
                         payload: {

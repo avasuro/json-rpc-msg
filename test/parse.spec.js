@@ -343,4 +343,85 @@ describe('#parseMessage', function() {
             expect(() => JsonRPC.parseMessage(message)).to.not.throw(JsonRPC.ParserError);
         });
     });
+
+    it('Throws ParserError if error message contains non-object "error" property', () => {
+        const invalidErrorValues = [
+            undefined,
+            null,
+            false,
+            true,
+            0,
+            1,
+            2.3,
+            '',
+            '  ',
+            'abc',
+            [],
+            [1,2]
+        ];
+        invalidErrorValues.forEach(invalidErrorValue => {
+            const message = {
+                jsonrpc: '2.0',
+                id: 1,
+                error: invalidErrorValue
+            };
+            expect(() => JsonRPC.parseMessage(message)).to.throw(JsonRPC.ParserError);
+        });
+
+    });
+
+    it('Throws ParserError if error message have invalid or missing "code" property', () => {
+        const invalidCodeValues = [
+            undefined,
+            null,
+            false,
+            true,
+            2.3,
+            '',
+            '  ',
+            'abc',
+            {},
+            {a: 'a'},
+            [],
+            [1,2]
+        ];
+        invalidCodeValues.forEach(invalidCode => {
+            const message = {
+                jsonrpc: '2.0',
+                id: 1,
+                error: {
+                    code: invalidCode,
+                    message: 'test'
+                }
+            };
+            expect(() => JsonRPC.parseMessage(message)).to.throw(JsonRPC.ParserError);
+        });
+
+    });
+
+    it('Throws ParserError if error message have invalid or missing "message" property', () => {
+        const invalidMessageValues = [
+            undefined,
+            null,
+            false,
+            true,
+            2.3,
+            {},
+            {a: 'a'},
+            [],
+            [1,2]
+        ];
+        invalidMessageValues.forEach(invalidMessage => {
+            const message = {
+                jsonrpc: '2.0',
+                id: 1,
+                error: {
+                    code: 123,
+                    message: invalidMessage
+                }
+            };
+            expect(() => JsonRPC.parseMessage(message)).to.throw(JsonRPC.ParserError);
+        });
+
+    });
 });
