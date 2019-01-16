@@ -73,9 +73,7 @@
     function ParserError(error) {
         this.name = 'ParserError';
         this.message = 'Failed to parse JSON-RPC message';
-        this.errorData = {
-            rpcError: error
-        };
+        this.rpcError = error;
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, ParserError);
         }

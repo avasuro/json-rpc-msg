@@ -141,14 +141,12 @@ describe('#parseMessage', function() {
     it('Throws "Parse error" if invalid JSON passed', function() {
         expect(() => JsonRPC.parseMessage('test'))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-                rpcError: {
-                    jsonrpc: RPC_VERSION,
-                    id: null,
-                    error: {
-                        code: JsonRPC.ERRORS.PARSE_ERROR.code,
-                        message: JsonRPC.ERRORS.PARSE_ERROR.message
-                    }
+            .with.deep.property('rpcError', {
+                jsonrpc: RPC_VERSION,
+                id: null,
+                error: {
+                    code: JsonRPC.ERRORS.PARSE_ERROR.code,
+                    message: JsonRPC.ERRORS.PARSE_ERROR.message
                 }
             });
     });
@@ -166,14 +164,12 @@ describe('#parseMessage', function() {
     it('Throws "Invalid request" if passed batch is empty', function() {
         expect(() => JsonRPC.parseMessage([]))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-                rpcError: {
-                    jsonrpc: RPC_VERSION,
-                    id: null,
-                    error: {
-                        code: JsonRPC.ERRORS.INVALID_REQUEST.code,
-                        message: JsonRPC.ERRORS.INVALID_REQUEST.message
-                    }
+            .with.deep.property('rpcError', {
+                jsonrpc: RPC_VERSION,
+                id: null,
+                error: {
+                    code: JsonRPC.ERRORS.INVALID_REQUEST.code,
+                    message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
             });
     });
@@ -181,16 +177,14 @@ describe('#parseMessage', function() {
     it('Throws "Invalid request" if passed JSON is not an array or an object', function() {
         expect(() => JsonRPC.parseMessage(true))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-            rpcError: {
+            .with.deep.property('rpcError', {
                 jsonrpc: RPC_VERSION,
                 id: null,
                 error: {
                     code: JsonRPC.ERRORS.INVALID_REQUEST.code,
                     message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
-            }
-        });
+            });
     });
 
     it('Throws "Invalid request" if response have both "result" and "error" props at the same time', function() {
@@ -205,16 +199,14 @@ describe('#parseMessage', function() {
         };
         expect(() => JsonRPC.parseMessage(response))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-            rpcError: {
+            .with.deep.property('rpcError', {
                 jsonrpc: RPC_VERSION,
                 id: 1,
                 error: {
                     code: JsonRPC.ERRORS.INVALID_REQUEST.code,
                     message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
-            }
-        });
+            });
     });
 
     it('Throws "Invalid request" if response have no "result" or "error" props', function() {
@@ -224,16 +216,14 @@ describe('#parseMessage', function() {
         };
         expect(() => JsonRPC.parseMessage(response))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-            rpcError: {
+            .with.deep.property('rpcError', {
                 jsonrpc: RPC_VERSION,
                 id: 1,
                 error: {
                     code: JsonRPC.ERRORS.INVALID_REQUEST.code,
                     message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
-            }
-        });
+            });
     });
 
     it('Throws "Invalid request" if response have no ID specified', function() {
@@ -243,15 +233,13 @@ describe('#parseMessage', function() {
         };
         expect(() => JsonRPC.parseMessage(response))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-            rpcError: {
+            .with.deep.property('rpcError', {
                 jsonrpc: RPC_VERSION,
                 id: null,
                 error: {
                     code: JsonRPC.ERRORS.INVALID_REQUEST.code,
                     message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
-            }
         });
     });
     
@@ -262,15 +250,13 @@ describe('#parseMessage', function() {
         };
         expect(() => JsonRPC.parseMessage(response))
             .to.throw(JsonRPC.ParserError)
-            .with.deep.property('errorData', {
-            rpcError: {
+            .with.deep.property('rpcError', {
                 jsonrpc: RPC_VERSION,
                 id: 1,
                 error: {
                     code: JsonRPC.ERRORS.INTERNAL_ERROR.code,
                     message: JsonRPC.ERRORS.INTERNAL_ERROR.message
                 }
-            }
         });
     });
 });
