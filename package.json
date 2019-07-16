@@ -7,7 +7,11 @@
     "node": ">=8.6"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "RPC_VERSION=\"2.0\" nyc --reporter=text --reporter=lcov mocha test/*.spec.js"
+  },
+  "pre-commit": {
+    "run": "lint"
   },
   "repository": {
     "type": "git",
@@ -20,7 +24,8 @@
     "eslint-config-avasuro": "^2.0.1",
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "pre-commit": "^1.2.2"
   },
   "keywords": [
     "json",
