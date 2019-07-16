@@ -4,7 +4,7 @@ const testCreateAnyRequestCases = require('./_createAnyRequestCases');
 
 const RPC_VERSION = process.env.RPC_VERSION;
 
-describe('#createRequest', function() {
+describe('#createRequest', () => {
     function createRequestWithMethodName(name) {
         return () => JsonRPC.createRequest(1, name);
     }
@@ -16,11 +16,9 @@ describe('#createRequest', function() {
         createRequestWithParameters: params => () => JsonRPC.createRequest(1, 'test', params)
     });
 
-    it(`Throws an error if requested method name starts with prefix for internal requests ("${JsonRPC.INTERNAL_MESSAGE_PREFIX}")`, function() {
+    it(`Throws an error if requested method name starts with prefix for internal requests ("${JsonRPC.INTERNAL_MESSAGE_PREFIX}")`, () => {
         expect(createRequestWithMethodName(`${JsonRPC.INTERNAL_MESSAGE_PREFIX}method`)).to.throw(Error);
         expect(createRequestWithMethodName(`${JsonRPC.INTERNAL_MESSAGE_PREFIX}`)).to.throw(Error);
     });
 });
-
-
 

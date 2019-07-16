@@ -3,6 +3,6 @@
     "env": {
         "mocha": true,
         "es6": true,
-        "prefer-arrow-callback": false
+        "node": true
     }
 }

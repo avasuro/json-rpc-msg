@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 
 const RPC_VERSION = process.env.RPC_VERSION;
 
-describe('#parseMessage', function() {
+describe('#parseMessage', () => {
     const notificationExample = {
         data: {
             jsonrpc: '2.0',
@@ -37,7 +37,7 @@ describe('#parseMessage', function() {
             jsonrpc: '2.0',
             id: 1,
             method: 'test',
-            params: [1,2]
+            params: [1, 2]
         },
         test(result) {
             expect(result).to.have.property('type', JsonRPC.MESSAGE_TYPES.REQUEST);
@@ -53,7 +53,7 @@ describe('#parseMessage', function() {
             jsonrpc: '2.0',
             id: 1,
             method: 'rpc.test',
-            params: [1,2]
+            params: [1, 2]
         },
         test(result) {
             expect(result).to.have.property('type', JsonRPC.MESSAGE_TYPES.INTERNAL_REQUEST);
@@ -99,31 +99,31 @@ describe('#parseMessage', function() {
         }
     };
 
-    it('Successfully parses notifications represented as javascript object', function() {
+    it('Successfully parses notifications represented as javascript object', () => {
         notificationExample.test(JsonRPC.parseMessage(notificationExample.data));
     });
 
-    it('Successfully parses internal notifications represented as javascript object', function() {
+    it('Successfully parses internal notifications represented as javascript object', () => {
         internalNotificationExample.test(JsonRPC.parseMessage(internalNotificationExample.data));
     });
 
-    it('Successfully parses requests represented as javascript object', function() {
+    it('Successfully parses requests represented as javascript object', () => {
         requestExample.test(JsonRPC.parseMessage(requestExample.data));
     });
 
-    it('Successfully parses internal requests represented as javascript object', function() {
+    it('Successfully parses internal requests represented as javascript object', () => {
         internalRequestExample.test(JsonRPC.parseMessage(internalRequestExample.data));
     });
 
-    it('Successfully parses responses represented as javascript object', function() {
+    it('Successfully parses responses represented as javascript object', () => {
         responseExample.test(JsonRPC.parseMessage(responseExample.data));
     });
 
-    it('Successfully parses errors represented as javascript object', function() {
+    it('Successfully parses errors represented as javascript object', () => {
         errorExample.test(JsonRPC.parseMessage(errorExample.data));
     });
 
-    it('Successfully parses messages represented as javascript array (batches)', function() {
+    it('Successfully parses messages represented as javascript array (batches)', () => {
         const batchParts = [notificationExample, requestExample, responseExample, errorExample];
         const batch = batchParts.map(batchPart => batchPart.data);
         const result = JsonRPC.parseMessage(batch);
@@ -134,11 +134,11 @@ describe('#parseMessage', function() {
         result.payload.forEach((parsedMessage, i) => batchParts[i].test(parsedMessage));
     });
 
-    it('Successfully parses messages represented as JSON string', function() {
+    it('Successfully parses messages represented as JSON string', () => {
         notificationExample.test(JsonRPC.parseMessage(JSON.stringify(notificationExample.data)));
     });
 
-    it('Throws "Parse error" if invalid JSON passed', function() {
+    it('Throws "Parse error" if invalid JSON passed', () => {
         expect(() => JsonRPC.parseMessage('test'))
             .to.throw(JsonRPC.ParserError)
             .with.deep.property('rpcError', {
@@ -151,7 +151,7 @@ describe('#parseMessage', function() {
             });
     });
 
-    it('Returns array that contains parse errors if JSON batch with bad formed requests passed', function() {
+    it('Returns array that contains parse errors if JSON batch with bad formed requests passed', () => {
         const result = JsonRPC.parseMessage(['test']);
         expect(result).to.be.an('object');
         expect(result).to.have.property('type', JsonRPC.MESSAGE_TYPES.BATCH);
@@ -161,7 +161,7 @@ describe('#parseMessage', function() {
             .that.is.instanceof(JsonRPC.ParserError);
     });
 
-    it('Throws "Invalid request" if passed batch is empty', function() {
+    it('Throws "Invalid request" if passed batch is empty', () => {
         expect(() => JsonRPC.parseMessage([]))
             .to.throw(JsonRPC.ParserError)
             .with.deep.property('rpcError', {
@@ -174,7 +174,7 @@ describe('#parseMessage', function() {
             });
     });
 
-    it('Throws "Invalid request" if passed JSON is not an array or an object', function() {
+    it('Throws "Invalid request" if passed JSON is not an array or an object', () => {
         expect(() => JsonRPC.parseMessage(true))
             .to.throw(JsonRPC.ParserError)
             .with.deep.property('rpcError', {
@@ -187,7 +187,7 @@ describe('#parseMessage', function() {
             });
     });
 
-    it('Throws "Invalid request" if response have both "result" and "error" props at the same time', function() {
+    it('Throws "Invalid request" if response have both "result" and "error" props at the same time', () => {
         const response = {
             jsonrpc: '2.0',
             id: 1,
@@ -209,7 +209,7 @@ describe('#parseMessage', function() {
             });
     });
 
-    it('Throws "Invalid request" if response have no "result" or "error" props', function() {
+    it('Throws "Invalid request" if response have no "result" or "error" props', () => {
         const response = {
             jsonrpc: '2.0',
             id: 1
@@ -226,10 +226,10 @@ describe('#parseMessage', function() {
             });
     });
 
-    it('Throws "Invalid request" if response have no ID specified', function() {
+    it('Throws "Invalid request" if response have no ID specified', () => {
         const response = {
             jsonrpc: '2.0',
-            result: 'test',
+            result: 'test'
         };
         expect(() => JsonRPC.parseMessage(response))
             .to.throw(JsonRPC.ParserError)
@@ -240,10 +240,10 @@ describe('#parseMessage', function() {
                     code: JsonRPC.ERRORS.INVALID_REQUEST.code,
                     message: JsonRPC.ERRORS.INVALID_REQUEST.message
                 }
-        });
+            });
     });
-    
-    it('Throws "Internal error" if JSON-RPC version passed in JSON is not supported', function() {
+
+    it('Throws "Internal error" if JSON-RPC version passed in JSON is not supported', () => {
         const response = {
             id: 1,
             result: 'test'
@@ -257,10 +257,10 @@ describe('#parseMessage', function() {
                     code: JsonRPC.ERRORS.INTERNAL_ERROR.code,
                     message: JsonRPC.ERRORS.INTERNAL_ERROR.message
                 }
-        });
+            });
     });
 
-    it('Throws "Invalid request" if request parameters is not a structured value', function() {
+    it('Throws "Invalid request" if request parameters is not a structured value', () => {
         const invalidParams = [
             undefined,
             null,
@@ -272,7 +272,7 @@ describe('#parseMessage', function() {
             0,
             123
         ];
-        invalidParams.forEach(param => {
+        invalidParams.forEach((param) => {
             const message = {
                 jsonrpc: '2.0',
                 id: 1,
@@ -282,17 +282,17 @@ describe('#parseMessage', function() {
             expect(() => JsonRPC.parseMessage(message))
                 .to.throw(JsonRPC.ParserError)
                 .with.deep.property('rpcError', {
-                jsonrpc: RPC_VERSION,
-                id: 1,
-                error: {
-                    code: JsonRPC.ERRORS.INVALID_REQUEST.code,
-                    message: JsonRPC.ERRORS.INVALID_REQUEST.message
-                }
-            });
+                    jsonrpc: RPC_VERSION,
+                    id: 1,
+                    error: {
+                        code: JsonRPC.ERRORS.INVALID_REQUEST.code,
+                        message: JsonRPC.ERRORS.INVALID_REQUEST.message
+                    }
+                });
         });
     });
 
-    it('Throws "Invalid request" if request method name is not a string', function() {
+    it('Throws "Invalid request" if request method name is not a string', () => {
         const invalidMethodNames = [
             undefined,
             null,
@@ -303,11 +303,11 @@ describe('#parseMessage', function() {
             0,
             123,
             [],
-            [1,2,3],
+            [1, 2, 3],
             {},
             {a: 'a'}
         ];
-        invalidMethodNames.forEach(methodName => {
+        invalidMethodNames.forEach((methodName) => {
             const message = {
                 jsonrpc: '2.0',
                 id: 1,
@@ -316,25 +316,25 @@ describe('#parseMessage', function() {
             expect(() => JsonRPC.parseMessage(message))
                 .to.throw(JsonRPC.ParserError)
                 .with.deep.property('rpcError', {
-                jsonrpc: RPC_VERSION,
-                id: 1,
-                error: {
-                    code: JsonRPC.ERRORS.INVALID_REQUEST.code,
-                    message: JsonRPC.ERRORS.INVALID_REQUEST.message
-                }
-            });
+                    jsonrpc: RPC_VERSION,
+                    id: 1,
+                    error: {
+                        code: JsonRPC.ERRORS.INVALID_REQUEST.code,
+                        message: JsonRPC.ERRORS.INVALID_REQUEST.message
+                    }
+                });
         });
     });
 
 
-    it('Allows to pass method or notification params as object or array', function() {
+    it('Allows to pass method or notification params as object or array', () => {
         const validParams = [
             [],
-            [1,2],
+            [1, 2],
             {},
             {a: 'a'}
         ];
-        validParams.forEach(param => {
+        validParams.forEach((param) => {
             const message = {
                 jsonrpc: '2.0',
                 method: 'validParamsTest',
@@ -357,9 +357,9 @@ describe('#parseMessage', function() {
             '  ',
             'abc',
             [],
-            [1,2]
+            [1, 2]
         ];
-        invalidErrorValues.forEach(invalidErrorValue => {
+        invalidErrorValues.forEach((invalidErrorValue) => {
             const message = {
                 jsonrpc: '2.0',
                 id: 1,
@@ -367,7 +367,6 @@ describe('#parseMessage', function() {
             };
             expect(() => JsonRPC.parseMessage(message)).to.throw(JsonRPC.ParserError);
         });
-
     });
 
     it('Throws ParserError if error message have invalid or missing "code" property', () => {
@@ -383,9 +382,9 @@ describe('#parseMessage', function() {
             {},
             {a: 'a'},
             [],
-            [1,2]
+            [1, 2]
         ];
-        invalidCodeValues.forEach(invalidCode => {
+        invalidCodeValues.forEach((invalidCode) => {
             const message = {
                 jsonrpc: '2.0',
                 id: 1,
@@ -396,7 +395,6 @@ describe('#parseMessage', function() {
             };
             expect(() => JsonRPC.parseMessage(message)).to.throw(JsonRPC.ParserError);
         });
-
     });
 
     it('Throws ParserError if error message have invalid or missing "message" property', () => {
@@ -409,9 +407,9 @@ describe('#parseMessage', function() {
             {},
             {a: 'a'},
             [],
-            [1,2]
+            [1, 2]
         ];
-        invalidMessageValues.forEach(invalidMessage => {
+        invalidMessageValues.forEach((invalidMessage) => {
             const message = {
                 jsonrpc: '2.0',
                 id: 1,
@@ -422,6 +420,5 @@ describe('#parseMessage', function() {
             };
             expect(() => JsonRPC.parseMessage(message)).to.throw(JsonRPC.ParserError);
         });
-
     });
 });

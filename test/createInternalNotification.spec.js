@@ -4,17 +4,21 @@ const testCreateAnyNotificationCases = require('./_createAnyNotificationCases');
 
 const RPC_VERSION = process.env.RPC_VERSION;
 
-describe('#createInternalNotification', function() {
+describe('#createInternalNotification', () => {
     testCreateAnyNotificationCases({
         RPC_VERSION,
         createNotificationWithName: name => () => JsonRPC.createInternalNotification(name),
         createNotificationWithParameters: params => () => JsonRPC.createInternalNotification('test', params)
     });
 
-    it('Adds internal notification name prefix if it\'s omitted', function() {
-        const unprefixedMethodName = `method`;
+    it('Adds internal notification name prefix if it\'s omitted', () => {
+        const unprefixedMethodName = 'method';
         const prefixedMethodName = `${JsonRPC.INTERNAL_MESSAGE_PREFIX}${unprefixedMethodName}`;
-        expect(JsonRPC.createInternalNotification(prefixedMethodName).method).to.be.equal(prefixedMethodName);
-        expect(JsonRPC.createInternalNotification(unprefixedMethodName).method).to.be.equal(prefixedMethodName);
+        expect(
+            JsonRPC.createInternalNotification(prefixedMethodName).method
+        ).to.be.equal(prefixedMethodName);
+        expect(
+            JsonRPC.createInternalNotification(unprefixedMethodName).method
+        ).to.be.equal(prefixedMethodName);
     });
 });
